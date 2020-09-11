@@ -6,21 +6,50 @@ import Numbers from './components/Numbers';
 
 class App extends React.Component {
 
-	state = { result: "" }
+	state = { result: "", presence: false }
 
 	calulate = () => {
-		val = eval(this.state.result);
-		this.setState({ result: (val).toString() })
+		this.setState({ result: (eval(this.state.result)).toString() })
 	}
+
+	checkpresence = () => {
+		special = '+-*/%.';
+		console.log(this.state.result);
+		for (i = 0; i < special.length; i++) {
+			if (this.state.result[-1] === special[i]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	setval = (exp) => {
 		if (exp === 'C') {
 			this.setState({ result: "" })
 		} else if (exp === 'back') {
 			this.setState({ result: this.state.result.slice(0, -1) })
 		} else if (exp === '=') {
-			this.calulate()
+			if (!this.state.presence) {
+				this.calulate()
+			}
 		} else {
-			this.setState({ result: this.state.result + exp })
+			if (/^-?[\d.]+(?:e-?\d+)?$/.test(exp)) {
+				if (this.state.result.length == 0 && (exp == '0' || exp == '00')) {
+					this.setState({ result: this.state.result })
+				} else {
+					this.setState({ result: this.state.result + exp })
+					this.setState({ presence: false })
+				}
+			} else {
+				if (this.state.presence) {
+					this.setState({ result: this.state.result })
+				} else {
+					if (this.state.result.length >= 1) {
+						this.setState({ result: this.state.result + exp })
+						this.setState({ presence: true })
+					}
+				}
+			}
 		}
 	};
 

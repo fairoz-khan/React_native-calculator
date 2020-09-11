@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mysecapp",
-    "slug": "mysecapp",
+    "name": "fcalculator",
+    "slug": "fcalculator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
